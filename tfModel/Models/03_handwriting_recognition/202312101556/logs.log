@@ -1,0 +1,62 @@
+2023-12-10 16:03:34,456 - root - INFO - Epoch 0; loss: 8.9924955368042; CER: 0.9391055703163147; WER: 0.9997777938842773; val_loss: 10.424671173095703; val_CER: 0.9637834429740906; val_WER: 1.0
+2023-12-10 16:03:34,766 - tf2onnx.tf_loader - WARNING - Could not search for non-variable resources. Concrete function internal representation may have changed.
+2023-12-10 16:03:35,049 - tf2onnx.tfonnx - INFO - Using tensorflow=2.15.0, onnx=1.15.0, tf2onnx=1.15.1/37820d
+2023-12-10 16:03:35,049 - tf2onnx.tfonnx - INFO - Using opset <onnx, 15>
+2023-12-10 16:03:35,064 - tf2onnx.tf_utils - ERROR - pass1 convert failed for name: "model/conv2d/Conv2D"
+op: "Conv2D"
+input: "model/lambda/truediv"
+input: "model/conv2d/Conv2D/ReadVariableOp"
+attr {
+  key: "use_cudnn_on_gpu"
+  value {
+    b: true
+  }
+}
+attr {
+  key: "strides"
+  value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "padding"
+  value {
+    s: "SAME"
+  }
+}
+attr {
+  key: "explicit_paddings"
+  value {
+    list {
+    }
+  }
+}
+attr {
+  key: "dilations"
+  value {
+    list {
+      i: 1
+      i: 1
+      i: 1
+      i: 1
+    }
+  }
+}
+attr {
+  key: "data_format"
+  value {
+    s: "NHWC"
+  }
+}
+attr {
+  key: "T"
+  value {
+    type: DT_FLOAT
+  }
+}
+, ex=Could not infer attribute `explicit_paddings` type from empty iterator

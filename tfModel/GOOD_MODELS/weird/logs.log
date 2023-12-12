@@ -1,0 +1,22 @@
+2023-12-11 10:33:08,468 - root - INFO - Epoch 0; loss: 9.30241584777832; CER: 0.9393314123153687; WER: 0.9995909929275513; val_loss: 14.014457702636719; val_CER: 0.9316961169242859; val_WER: 1.0
+2023-12-11 10:39:20,330 - root - INFO - Epoch 1; loss: 6.066108226776123; CER: 0.6962637901306152; WER: 0.9815954566001892; val_loss: 11.18821907043457; val_CER: 0.5823229551315308; val_WER: 1.0
+2023-12-11 10:45:31,368 - root - INFO - Epoch 2; loss: 2.609457015991211; CER: 0.2894951105117798; WER: 0.672184407711029; val_loss: 8.765698432922363; val_CER: 0.3758198916912079; val_WER: 0.99980628490448
+2023-12-11 10:51:42,690 - root - INFO - Epoch 3; loss: 1.1040118932724; CER: 0.11406262964010239; WER: 0.3025873899459839; val_loss: 8.365699768066406; val_CER: 0.3442818224430084; val_WER: 1.0
+2023-12-11 10:57:53,625 - root - INFO - Epoch 4; loss: 0.7008348703384399; CER: 0.07121691852807999; WER: 0.1867358237504959; val_loss: 9.116868019104004; val_CER: 0.3129567503929138; val_WER: 1.0
+2023-12-11 11:04:05,161 - root - INFO - Epoch 5; loss: 0.5090070366859436; CER: 0.051556333899497986; WER: 0.1306827962398529; val_loss: 8.307345390319824; val_CER: 0.3286031484603882; val_WER: 0.99980628490448
+2023-12-11 11:10:27,336 - root - INFO - Epoch 6; loss: 0.4218139052391052; CER: 0.04228316619992256; WER: 0.10399086773395538; val_loss: 8.612761497497559; val_CER: 0.31640851497650146; val_WER: 1.0
+2023-12-11 11:16:51,498 - root - INFO - Epoch 7; loss: 0.3504946231842041; CER: 0.03439178317785263; WER: 0.0837351456284523; val_loss: 8.431645393371582; val_CER: 0.30865609645843506; val_WER: 1.0
+2023-12-11 11:23:16,617 - root - INFO - Epoch 8; loss: 0.2957424521446228; CER: 0.028843820095062256; WER: 0.0687747523188591; val_loss: 8.17940902709961; val_CER: 0.3050268888473511; val_WER: 1.0
+2023-12-11 11:29:37,500 - root - INFO - Epoch 9; loss: 0.26329365372657776; CER: 0.02605799026787281; WER: 0.06175735965371132; val_loss: 8.59878158569336; val_CER: 0.3051304221153259; val_WER: 1.0
+2023-12-11 11:29:37,783 - tf2onnx.tf_loader - WARNING - Could not search for non-variable resources. Concrete function internal representation may have changed.
+2023-12-11 11:29:38,076 - tf2onnx.tfonnx - INFO - Using tensorflow=2.15.0, onnx=1.14.0, tf2onnx=1.15.1/37820d
+2023-12-11 11:29:38,076 - tf2onnx.tfonnx - INFO - Using opset <onnx, 15>
+2023-12-11 11:29:38,103 - tf2onnx.tf_utils - INFO - Computed 0 values for constant folding
+2023-12-11 11:29:38,105 - tf2onnx.tf_utils - INFO - Computed 0 values for constant folding
+2023-12-11 11:29:38,106 - tf2onnx.tf_utils - INFO - Computed 0 values for constant folding
+2023-12-11 11:29:38,107 - tf2onnx.tf_utils - INFO - Computed 0 values for constant folding
+2023-12-11 11:29:38,126 - tf2onnx.tf_utils - INFO - Computed 2 values for constant folding
+2023-12-11 11:29:38,146 - tf2onnx.tfonnx - INFO - folding node using tf type=StridedSlice, name=model/bidirectional/forward_lstm/PartitionedCall/strided_slice
+2023-12-11 11:29:38,146 - tf2onnx.tfonnx - INFO - folding node using tf type=StridedSlice, name=model/bidirectional/backward_lstm/PartitionedCall/strided_slice
+2023-12-11 11:29:38,213 - tf2onnx.optimizer - INFO - Optimizing ONNX model
+2023-12-11 11:29:38,420 - tf2onnx.optimizer - INFO - After optimization: BatchNormalization -18 (18->0), Cast -4 (11->7), Concat -4 (10->6), Const -129 (192->63), Expand -3 (4->1), Gather +2 (2->4), Identity -2 (2->0), Shape -1 (4->3), Slice -1 (5->4), Squeeze -3 (5->2), Transpose -81 (85->4), Unsqueeze -14 (17->3)

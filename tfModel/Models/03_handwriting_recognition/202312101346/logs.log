@@ -1,0 +1,4 @@
+2023-12-10 13:46:31,440 - tensorflow - WARNING - Callback method `on_train_batch_end` is slow compared to the batch time (batch time: 0.0701s vs `on_train_batch_end` time: 0.2500s). Check your callbacks.
+2023-12-10 13:48:26,228 - ImageReader - WARNING - Image Datasets/IAM_Words/words/a01/a01-117/a01-117-05-02.png could not be read, returning None.
+2023-12-10 13:48:26,228 - DataProvider - WARNING - Data or annotation is None, marking for removal on epoch end.
+2023-12-10 13:48:26,228 - DataProvider - WARNING - Data or annotation is None, skipping.
