@@ -40,12 +40,14 @@ We also link the used tesseract documentation as well as a video tutorial descri
    TESSDATA_PREFIX=../tesseract/tessdata make training MODEL_NAME=MODEL_NAME START_MODEL= eng TESSDATA=../tesseract/tessdata MAX_ITERATIONS=100
    ```
 
+   The english starting model and number of iterations is stated here as an example. The 'MAX_ITERATIONS' parameter can be changed to a higher number to improve accuracy. The 'START_MODEL' parameter can be changed to a different language model (e.g., 'fra').
+
 9. Once the model is trained, you can run the following command in tesstrain to test an image:
 
    ```
    tesseract PATH_TO_FILE stdout --tessdata-dir data/ --psm 7 -l MODEL_NAME
    ```
 
-Replace 'PATH_TO_FILE' with the path to the image to be tested (e.g., data/MODEL_NAME-ground-truth/image_name.png).
+   Replace 'PATH_TO_FILE' with the path to the image to be tested (e.g., data/MODEL_NAME-ground-truth/image_name.png).
 
 Tips: Issues with outdated commands can be ecountered, if you do, update them (e.g., sudo apt-get install bc).
