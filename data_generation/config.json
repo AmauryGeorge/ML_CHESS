@@ -1,0 +1,7 @@
+{
+    "data_output_folder": "data",
+    "fonts_folder": "fonts",
+    "start": 0,  
+    "end": 10,
+    "moves_distribution_file": "all_moves_proba.txt"
+}
