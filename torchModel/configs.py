@@ -7,7 +7,7 @@ from mltu.configs import BaseModelConfigs
 class ModelConfigs(BaseModelConfigs):
     def __init__(self):
         super().__init__()
-        self.model_path = os.path.join("Models/08_handwriting_recognition_torch", datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
+        self.model_path = os.path.join("Models", datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
         self.vocab = ""
         self.height = 32
         self.width = 128
