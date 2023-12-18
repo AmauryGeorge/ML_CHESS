@@ -6,7 +6,8 @@ import os
 from mltu.configs import BaseModelConfigs
 
 from mltu.inferenceModel import OnnxInferenceModel
-from mltu.utils.text_utils import ctc_decoder, get_cer, get_wer
+from mltu.utils.text_utils import get_cer, get_wer
+from decoder import ctc_decoder
 
 class ImageToWordModel(OnnxInferenceModel):
     def __init__(self,char_list: typing.Union[str, list], *args, **kwargs):
@@ -19,21 +20,23 @@ class ImageToWordModel(OnnxInferenceModel):
 
         preds = self.model.run(None, {self.input_name: image_pred})[0]
 
-        text = ctc_decoder(preds, self.char_list)[0]
+        text,unsure = ctc_decoder(preds, self.char_list)
 
-        return text
+        return text[0],unsure
 
 if __name__ == "__main__":
     import pandas as pd
     from tqdm import tqdm
 
-    configs = BaseModelConfigs.load("torchModel/Models/08_handwriting_recognition_torch/202312121107/configs.yaml")
+    configs = BaseModelConfigs.load("torchModel/Models/BestModels/best/configs.yaml")
     model = ImageToWordModel(model_path=configs.model_path, char_list=configs.vocab)
     accum_cer = []
     accum_wer = []
-    dataset_path = "data3"
-    dataset_path = "data3"
     l=[]
+
+    dataset, vocab, max_len = [], set(), 0
+
+    dataset_path = "data3"
     """for i in tqdm(range(100000, 100999)):
         img_path = os.path.join(dataset_path, f"{i}.png")
         label_path = os.path.join(dataset_path, f"{i}.gt.txt")
@@ -56,6 +59,21 @@ if __name__ == "__main__":
         label = ids_label[ids_label["id"] == id]["prediction"].values[0]
         l.append([img_path, label])"""
     
+    data_cr = pd.read_csv("test_data/prediciton.csv")
+    ids_label = data_cr[["id", "prediction"]]
+    train_ids_label = ids_label[0:1000]
+    for id in tqdm(train_ids_label["id"]):
+        #try either png or jpe
+        img_path = os.path.join("test_data/images", f"{id}.png")
+        if not os.path.exists(img_path):
+            img_path = os.path.join("test_data/images", f"{id}.jpe")
+        label = ids_label[ids_label["id"] == id]["prediction"].values[0]
+        dataset.append([img_path, label])
+        vocab.update(list(label))
+        max_len = max(max_len, len(label))
+        l.append([img_path, label])
+
+
     l.append(["manual_test/img2.jpeg", "Qc9"])
     """l.append(["manual_test/img1.jpeg", "axb8"])
     l.append(["manual_test/img3.jpeg", "Kb7+"])
@@ -65,11 +83,11 @@ if __name__ == "__main__":
         image = cv2.imread(image_path)
         #reshape image to be 32x128
         
-        prediction_text1 = model.predict(image)
-        cer = get_cer(prediction_text1, label)
-        wer = get_wer(prediction_text1, label)
+        prediction_text, unsure = model.predict(image)
+        cer = get_cer(prediction_text, label)
+        wer = get_wer(prediction_text, label)
 
-        print(f"Image: {image_path}, Label: {label}, Prediction: {prediction_text1}, CER: {cer}, alt: ")
+        print(f"Image: {image_path}, Label: {label}, Prediction: {prediction_text}, CER: {cer}, unsures: {unsure} ")
 
         accum_cer.append(cer)
         accum_wer.append(wer)
