@@ -29,5 +29,9 @@ def ctc_decoder(predictions: np.ndarray, chars: typing.Union[str, list]) -> typi
         if np.exp(values_at_argmax_arr[i][0])< 0.9:
             most_likely_idx = np.argsort(predictions[0][i])[-2]
             idx = argmax_arr[i]
-            unsures.append(f"{c[idx]}->{c[most_likely_idx]}")
+            new_preds = [i for i in argmax_preds[:,:,-1]]
+            new_preds[0][i] = most_likely_idx
+            new_grouped_preds = [[k for k,_ in groupby(preds)] for preds in new_preds]
+            new_text = ["".join([chars[k] for k in group if k < len(chars)]) for group in new_grouped_preds]
+            unsures.append(new_text)
     return text,unsures

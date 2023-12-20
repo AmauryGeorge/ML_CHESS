@@ -36,18 +36,18 @@ if __name__ == "__main__":
 
     dataset, vocab, max_len = [], set(), 0
 
-    dataset_path = "data3"
-    """for i in tqdm(range(100000, 100999)):
-        img_path = os.path.join(dataset_path, f"{i}.png")
-        label_path = os.path.join(dataset_path, f"{i}.gt.txt")
+    dataset_path = "data"
+    # for i in tqdm(range(6000, 10000)):
+    #     img_path = os.path.join(dataset_path, f"{i}.png")
+    #     label_path = os.path.join(dataset_path, f"{i}.txt")
         
-        if not os.path.exists(img_path) or not os.path.exists(label_path):
-            print(f"File not found: {img_path} or {label_path}")
-            continue
+    #     if not os.path.exists(img_path) or not os.path.exists(label_path):
+    #         print(f"File not found: {img_path} or {label_path}")
+    #         continue
 
-        with open(label_path, 'r') as file:
-            label = file.read().strip()
-        l.append([img_path, label])"""
+    #     with open(label_path, 'r') as file:
+    #         label = file.read().strip()
+    #     l.append([img_path, label])
     """data_cr = pd.read_csv("test_data/prediciton.csv")
     ids_label = data_cr[["id", "prediction"]]
     tests = ids_label[1000:]
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     
     data_cr = pd.read_csv("test_data/prediciton.csv")
     ids_label = data_cr[["id", "prediction"]]
-    train_ids_label = ids_label[0:1000]
+    train_ids_label = ids_label[1000: ]
     for id in tqdm(train_ids_label["id"]):
         #try either png or jpe
         img_path = os.path.join("test_data/images", f"{id}.png")
