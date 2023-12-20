@@ -25,16 +25,16 @@ from model import Network
 from configs import ModelConfigs
 
 # Updated dataset path
-dataset_path = "data_generation/data"
+dataset_path = os.path.join("data_generation","data")
 
 # Initialize dataset, vocab, and max_len
 
 dataset = []
-vocab = set([move.split(",")[0] for move in open("data_generation/all_moves_proba.txt", 'r').read().split("\n")])
+vocab = set([move.split(",")[0] for move in open(os.path.join(os.getcwd(),"data_generation","all_moves_proba.txt"), 'r').read().split("\n")])
 max_len = len(max(vocab, key=len))
 print(max_len)
 # Load and preprocess the dataset
-for i in tqdm(range(10000)):
+for i in tqdm(range(5000)):
     img_path = os.path.join(dataset_path, f"{i}.png")
     label_path = os.path.join(dataset_path, f"{i}.txt")
     
@@ -121,15 +121,15 @@ optimizer = optim.Adam(network.parameters(), lr=configs.learning_rate)
 
 # put on cuda device if available
 # use mps to speedup on mac 
-network = network.to("mps")
+network = network.cuda()
 
 # create callbacks
 earlyStopping = EarlyStopping(monitor="val_CER", patience=20, mode="min", verbose=1)
-modelCheckpoint = ModelCheckpoint(configs.model_path + "/model.pt", monitor="val_CER", mode="min", save_best_only=True, verbose=1)
-tb_callback = TensorBoard(configs.model_path + "/logs")
+modelCheckpoint = ModelCheckpoint(os.path.join(configs.model_path , "model.pt"), monitor="val_CER", mode="min", save_best_only=True, verbose=1)
+tb_callback = TensorBoard(os.path.join(configs.model_path ,"logs"))
 reduce_lr = ReduceLROnPlateau(monitor="val_CER", factor=0.9, patience=10, verbose=1, mode="min", min_lr=1e-6)
 model2onnx = Model2onnx(
-    saved_model_path=configs.model_path + "/model.pt",
+    saved_model_path=os.path.join(configs.model_path,"model.pt"),
     input_shape=(1, configs.height, configs.width, 3), 
     verbose=1,
     metadata={"vocab": configs.vocab}
