@@ -25,16 +25,18 @@ from model import Network
 from configs import ModelConfigs
 
 # Updated dataset path
-dataset_path = "data2"
+dataset_path = "data_generation/data"
 
 # Initialize dataset, vocab, and max_len
-dataset, vocab, max_len = [], set(), 0
 
-
+dataset = []
+vocab = set([move.split(",")[0] for move in open("data_generation/all_moves_proba.txt", 'r').read().split("\n")])
+max_len = len(max(vocab, key=len))
+print(max_len)
 # Load and preprocess the dataset
-for i in tqdm(range(50000, 51499)):
+for i in tqdm(range(10000)):
     img_path = os.path.join(dataset_path, f"{i}.png")
-    label_path = os.path.join(dataset_path, f"{i}.gt.txt")
+    label_path = os.path.join(dataset_path, f"{i}.txt")
     
     if not os.path.exists(img_path) or not os.path.exists(label_path):
         print(f"File not found: {img_path} or {label_path}")
@@ -44,15 +46,13 @@ for i in tqdm(range(50000, 51499)):
         label = file.read().strip()
 
     dataset.append([img_path, label])
-    vocab.update(list(label))
+    
     max_len = max(max_len, len(label))
-# Updated dataset path
-dataset_path = "data"
 
 # Load and preprocess the dataset
-for i in tqdm(range(0, 1499)):
-    img_path = os.path.join(dataset_path, f"{i}.png")
-    label_path = os.path.join(dataset_path, f"{i}.gt.txt")
+for i in tqdm(range(10000, 11000)):
+    img_path = os.path.join(os.getcwd(),dataset_path, f"{i}.png")
+    label_path = os.path.join(os.getcwd(),dataset_path, f"{i}.txt")
     
     if not os.path.exists(img_path) or not os.path.exists(label_path):
         print(f"File not found: {img_path} or {label_path}")
@@ -62,20 +62,20 @@ for i in tqdm(range(0, 1499)):
         label = file.read().strip()
 
     dataset.append([img_path, label])
-    vocab.update(list(label))
+    
     max_len = max(max_len, len(label))
+#the head of the csv file is: Unnamed: 0,gameId,turnNumber,number,move_state,confidence,gl,gl2,az,rk,ab,prediction,id,width,height,mimetype,true_label
+# only need the id, mimetype, and true_label
+data_cr = pd.read_csv(os.path.join(os.getcwd(),"test_data", "cleaned_predictions2.csv"))
 
-data_cr = pd.read_csv("test_data/prediciton.csv")
-ids_label = data_cr[["id", "prediction"]]
-train_ids_label = ids_label[0:1000]
-for id in tqdm(train_ids_label["id"]):
-    #try either png or jpe
-    img_path = os.path.join("test_data/images", f"{id}.png")
-    if not os.path.exists(img_path):
-        img_path = os.path.join("test_data/images", f"{id}.jpe")
-    label = ids_label[ids_label["id"] == id]["prediction"].values[0]
+train_ids_label = data_cr[["id", "mimetype", "true_label"]][:1000].to_dict(orient="records")
+for sample in tqdm(train_ids_label):
+
+    format = "jpe" if sample['mimetype'].split(".")[-1] == "image/jpeg" else "png"
+    img_path = os.path.join(os.getcwd(),"test_data","images", f"{sample['id']}.{format}")
+
+    label = sample["true_label"]
     dataset.append([img_path, label])
-    vocab.update(list(label))
     max_len = max(max_len, len(label))
 
 
@@ -120,7 +120,8 @@ optimizer = optim.Adam(network.parameters(), lr=configs.learning_rate)
 #summary(network, torch.zeros((1, configs.height, configs.width, 3)))
 
 # put on cuda device if available
-network = network.cpu()
+# use mps to speedup on mac 
+network = network.to("mps")
 
 # create callbacks
 earlyStopping = EarlyStopping(monitor="val_CER", patience=20, mode="min", verbose=1)
